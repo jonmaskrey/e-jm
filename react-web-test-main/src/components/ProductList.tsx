@@ -1,35 +1,32 @@
-import { useState } from "react";
-import { useSearchProducts } from "../hooks/useSearchProducts";
+import { observer } from "mobx-react-lite";
+import { productStore } from "../stores/ProductStore";
 
-function ProductList() {
-  const [query, setQuery] = useState('');
-  const { products, isLoading, error } = useSearchProducts(query);
-
+const ProductList = observer(() => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    productStore.setQuery(event.target.value);
   };
 
   return (
     <>
       <input
         type="text"
-        value={query}
+        value={productStore.query}
         onChange={handleSearch}
         placeholder="Search products..."
       />
-      {error ? (
-        <div>Error: {error.message}</div>
-      ) : isLoading ? (
+      {productStore.error ? (
+        <div>Error: {productStore.error.message}</div>
+      ) : productStore.isLoading ? (
         <div>Loading...</div>
       ) : (
         <ul>
-          {products.map((product) => (
+          {productStore.products.map((product) => (
             <li key={product.id}>{product.title}</li>
           ))}
         </ul>
       )}
     </>
   );
-}
+});
 
 export default ProductList;
