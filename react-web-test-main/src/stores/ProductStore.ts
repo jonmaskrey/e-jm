@@ -14,6 +14,7 @@ class ProductStore {
 
   constructor() {
     makeAutoObservable(this);
+    this.fetchProducts();
   }
 
   setQuery(query: string) {
