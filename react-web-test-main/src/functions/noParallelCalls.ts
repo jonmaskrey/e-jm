@@ -9,8 +9,25 @@ export const dangerousFunction = async () => {
   return { message: `Success at ${new Date().toISOString()}` };
 };
 
-export const noParallelCalls = async <T extends () => Promise<unknown>>(
-  dangerousCallBack: T
-) => {
-  return await dangerousCallBack();
-};
+export const noParallelCalls = (() => {
+  let callOngoing: Promise<unknown> | null = null;
+
+  return async <T extends () => Promise<unknown>>(dangerousCallBack: T) => {
+    // If there's already a call in progress, return the same promise
+    if (callOngoing) {
+      return callOngoing;
+    }
+
+    // Execute the dangerous callback and store the promise
+    callOngoing = dangerousCallBack();
+
+    try {
+      // Wait for the result of the dangerous function
+      const result = await callOngoing;
+      return result;
+    } finally {
+      // Always reset callOngoing to allow new calls after completion or error
+      callOngoing = null;
+    }
+  };
+})();

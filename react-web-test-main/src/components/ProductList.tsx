@@ -13,22 +13,38 @@ const ProductList = observer(() => {
     }
   }, [throttledSearchTerm]);
 
-  const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const handleSearch = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+    },
+    []
+  );
+
+  const handleClearSearch = useCallback(() => {
+    setSearchTerm("");
+    productStore.setQuery("");
   }, []);
 
   return (
     <>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearch}
-        placeholder="Search products..."
-      />
+      <fieldset>
+        <legend>Product search</legend>
+        <label htmlFor="search">Search products:</label>
+        <input
+          id="search"
+          type="text"
+          value={searchTerm}
+          onChange={handleSearch}
+          placeholder="Search products..."
+        />
+        {productStore.isLoading && <div>Loading...</div>}
+        <div>
+          <button onClick={handleClearSearch}>Clear search</button>
+        </div>
+      </fieldset>
+
       {productStore.error ? (
         <div>Error: {productStore.error.message}</div>
-      ) : productStore.isLoading ? (
-        <div>Loading...</div>
       ) : (
         <ul>
           {productStore.products.map((product) => (
