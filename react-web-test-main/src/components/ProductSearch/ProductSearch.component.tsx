@@ -1,19 +1,19 @@
 import { observer } from "mobx-react-lite";
 import { productStore } from "../../stores/ProductStore";
-import useThrottle from "../../hooks/useThrottle";
+import useDebounce from "../../hooks/useDebounce";
 import { useEffect, useState } from "react";
 import Loader from "../Loader/Loader.component";
 import "./ProductSearch.styles.css";
 
 const ProductSearch = observer(() => {
   const [searchTerm, setSearchTerm] = useState(productStore.query);
-  const throttledSearchTerm = useThrottle(searchTerm, 800);
+  const debouncedSearchTerm = useDebounce(searchTerm, 800);
 
   useEffect(() => {
-    if (throttledSearchTerm !== productStore.query) {
-      productStore.setQuery(throttledSearchTerm);
+    if (debouncedSearchTerm !== productStore.query) {
+      productStore.setQuery(debouncedSearchTerm);
     }
-  }, [throttledSearchTerm]);
+  }, [debouncedSearchTerm]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
