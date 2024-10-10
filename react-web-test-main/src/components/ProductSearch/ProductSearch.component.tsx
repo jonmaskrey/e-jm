@@ -1,17 +1,10 @@
 import { observer } from "mobx-react-lite";
+import { action } from "mobx";
 import { productStore } from "../../stores/ProductStore";
 import Loader from "../Loader/Loader.component";
 import "./ProductSearch.styles.css";
 
 const ProductSearch = observer(() => {
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    productStore.setQuery(event.target.value);
-  };
-
-  const handleClearSearch = () => {
-    productStore.setQuery("");
-  };
-
   return (
     <>
       <fieldset className="productSearch">
@@ -24,14 +17,18 @@ const ProductSearch = observer(() => {
             id="search"
             type="text"
             value={productStore.query}
-            onChange={handleSearch}
+            onChange={action((e) => {
+              productStore.setQuery(e.target.value);
+            })}
             placeholder="Search products..."
           />
           {productStore.isLoading && <Loader />}
         </div>
         <div>
           <button
-            onClick={handleClearSearch}
+            onClick={action(() => {
+              productStore.setQuery("");
+            })}
             disabled={productStore.query.length === 0}
           >
             Clear search
