@@ -1,10 +1,10 @@
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import ProductList from "./components/ProductList/ProductList.component";
 import "./App.css";
+import { queryClient } from "./queryClient";
 
 function App() {
 
-  const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
       <ProductList />

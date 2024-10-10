@@ -1,6 +1,7 @@
-import { QueryClient } from "@tanstack/react-query";
+import { queryClient } from "../queryClient";
 import { addRetries } from "../functions/addRetries";
 import { SearchProductsResult } from "../types/products";
+
 
 const searchProducts = async (query: string): Promise<SearchProductsResult> => {
   const queryFn = async () => {
@@ -14,17 +15,16 @@ const searchProducts = async (query: string): Promise<SearchProductsResult> => {
     return data;
   };
 
-  const queryClient = new QueryClient();
   const queryResult = await queryClient.fetchQuery({
     queryKey: ["products", query],
-    retry: false,
     queryFn: addRetries(queryFn),
+    staleTime: 300000,
   });
 
   return {
     products: queryResult.products || [],
-    isLoading: queryResult.isLoading,
-    error: queryResult.error as Error | null,
+    isLoading: false,
+    error: null,
   };
 };
 

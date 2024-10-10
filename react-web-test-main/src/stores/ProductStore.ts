@@ -25,6 +25,7 @@ class ProductStore {
 
   resetQuery() {
     this.query = "";
+    this.fetchProducts();
   }
 
   setQuery(query: string) {
