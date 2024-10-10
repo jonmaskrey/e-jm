@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { productStore } from "../../stores/ProductStore";
 import useThrottle from "../../hooks/useThrottle";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../Loader/Loader.component";
 import "./ProductSearch.styles.css";
 
@@ -15,17 +15,14 @@ const ProductSearch = observer(() => {
     }
   }, [throttledSearchTerm]);
 
-  const handleSearch = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
-    },
-    []
-  );
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
-  const handleClearSearch = useCallback(() => {
+  const handleClearSearch = () => {
     setSearchTerm("");
     productStore.setQuery("");
-  }, []);
+  };
 
   return (
     <>

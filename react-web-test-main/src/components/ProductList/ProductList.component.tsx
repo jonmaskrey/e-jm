@@ -8,9 +8,13 @@ import "./ProductList.styles.css";
 const ProductList = observer(() => {
   return (
     <>
-    <ProductSearch />
+      <ProductSearch />
       {productStore.error ? (
         <div>Error: {productStore.error.message}</div>
+      ) : productStore.isLoading ? (
+        <div>Loading...</div>
+      ) : productStore.products.length === 0 ? (
+        <div>No products found</div>
       ) : (
         <ul className="productList">
           {productStore.products.map((product) => (
