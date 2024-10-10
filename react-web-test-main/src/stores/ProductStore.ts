@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, reaction } from "mobx";
+import { makeAutoObservable, flow, reaction } from "mobx";
 import { searchProducts } from "../functions/searchProducts";
 import { Product } from "../types/products";
 
@@ -27,22 +27,18 @@ class ProductStore {
     this.query = query;
   }
 
-  async fetchProducts() {
+  fetchProducts = flow(function* (this: ProductStore) {
     this.isLoading = true;
     try {
-      const { products, isLoading, error } = await searchProducts(this.query);
-      runInAction(() => {
-        this.products = products;
-        this.isLoading = isLoading;
-        this.error = error;
-      });
+      const { products, isLoading, error } = yield searchProducts(this.query);
+      this.products = products;
+      this.isLoading = isLoading;
+      this.error = error;
     } catch (error) {
-      runInAction(() => {
-        this.error = error as Error;
-        this.isLoading = false;
-      });
+      this.error = error as Error;
+      this.isLoading = false;
     }
-  }
+  });
 }
 
 export const productStore = new ProductStore();
