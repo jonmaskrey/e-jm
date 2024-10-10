@@ -42,7 +42,7 @@ const ProductSearch = observer(() => {
           {productStore.isLoading && <Loader />}
         </div>
         <div>
-          <button onClick={handleClearSearch}>Clear search</button>
+          <button onClick={handleClearSearch} disabled={searchTerm.length === 0}>Clear search</button>
         </div>
       </fieldset>
     </>
