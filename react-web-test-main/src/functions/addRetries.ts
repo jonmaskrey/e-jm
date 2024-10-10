@@ -19,6 +19,6 @@ export function addRetries<T, A extends unknown[]>(callbackToRetry: (...args: A)
     if (newError) {
       throw newError;
     }
-  throw new Error("Function did not return a result");
-};
+    throw new Error("Function did not return a result");
+  };
 }

@@ -12,3 +12,7 @@
     color: #444;
     text-decoration: underline;
 }
+
+.productItem__details {
+    padding: 1rem;
+}

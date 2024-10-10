@@ -27,7 +27,7 @@ const ProductSearch = observer(() => {
         <div>
           <button
             onClick={action(() => {
-              productStore.setQuery("");
+              productStore.resetQuery();
             })}
             disabled={productStore.query.length === 0}
           >

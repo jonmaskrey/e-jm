@@ -23,6 +23,10 @@ class ProductStore {
     );
   }
 
+  resetQuery() {
+    this.query = "";
+  }
+
   setQuery(query: string) {
     this.query = query;
   }

@@ -5,9 +5,9 @@ export default function ProductItem({ data }: { data: Product }) {
   return (
     <li className="productItem">
       {data.thumbnail && (
-        <img src={data.thumbnail} alt={data.title} loading="lazy" />
+        <img src={data.thumbnail} alt={data.title} width={250} height={250} loading="lazy" />
       )}
-      <div>
+      <div className="productItem__details">
         <h2>
           <a href={`/product/${data.id}`}>{data.title}</a>
         </h2>
