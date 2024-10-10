@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { searchProducts } from "../functions/searchProducts";
 import { Product } from "../types/products";
 
@@ -10,12 +10,21 @@ class ProductStore {
 
   constructor() {
     makeAutoObservable(this);
+    // Initial fetch
     this.fetchProducts();
+
+    // Debounce the search query
+    reaction(
+      () => this.query,
+      () => {
+        this.fetchProducts();
+      },
+      { delay: 800 }
+    );
   }
 
   setQuery(query: string) {
     this.query = query;
-    this.fetchProducts();
   }
 
   async fetchProducts() {
