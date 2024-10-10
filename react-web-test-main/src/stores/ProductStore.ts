@@ -1,10 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { searchProducts } from "../functions/searchProducts";
-
-interface Product {
-  id: number;
-  title: string;
-}
+import { Product } from "../types/products";
 
 class ProductStore {
   query = "";

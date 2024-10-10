@@ -1,22 +1,14 @@
-import { QueryClient } from '@tanstack/react-query';
-import { addRetries } from '../functions/addRetries';
-
-interface Product {
-  id: number;
-  title: string;
-}
-
-interface SearchProductsResult {
-  products: Product[];
-  isLoading: boolean;
-  error: Error | null;
-}
+import { QueryClient } from "@tanstack/react-query";
+import { addRetries } from "../functions/addRetries";
+import { SearchProductsResult } from "../types/products";
 
 const searchProducts = async (query: string): Promise<SearchProductsResult> => {
   const queryFn = async () => {
-    const response = await fetch(`https://dummyjson.com/products/search?q=${query}&limit=0`);
+    const response = await fetch(
+      `https://dummyjson.com/products/search?q=${query}&limit=0`
+    );
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
     const data = await response.json();
     return data;
@@ -24,7 +16,7 @@ const searchProducts = async (query: string): Promise<SearchProductsResult> => {
 
   const queryClient = new QueryClient();
   const queryResult = await queryClient.fetchQuery({
-    queryKey: ['products', query],
+    queryKey: ["products", query],
     retry: false,
     queryFn: addRetries(queryFn),
   });
