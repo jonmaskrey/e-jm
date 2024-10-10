@@ -16,7 +16,7 @@ const ProductList = observer(() => {
       ) : productStore.products.length === 0 ? (
         <div>No products found</div>
       ) : (
-        <ul className="productList">
+        <ul className="productList" role="list">
           {productStore.products.map((product) => (
             <ProductItem key={product.id} data={product} />
           ))}
