@@ -1,5 +1,5 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import ProductList from "./components/ProductList";
+import ProductList from "./components/ProductList/ProductList.component";
 import "./App.css";
 
 function App() {

@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite";
-import { productStore } from "../stores/ProductStore";
-import useThrottle from "../hooks/useThrottle";
+import { productStore } from "../../stores/ProductStore";
+import useThrottle from "../../hooks/useThrottle";
 import { useEffect, useState, useCallback } from "react";
+import Loader from "../Loader/Loader.component";
+import "./ProductSearch.styles.css";
 
-const ProductList = observer(() => {
+const ProductSearch = observer(() => {
   const [searchTerm, setSearchTerm] = useState(productStore.query);
   const throttledSearchTerm = useThrottle(searchTerm, 800);
 
@@ -27,33 +29,27 @@ const ProductList = observer(() => {
 
   return (
     <>
-      <fieldset>
-        <legend>Product search</legend>
-        <label htmlFor="search">Search products:</label>
-        <input
-          id="search"
-          type="text"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Search products..."
-        />
-        {productStore.isLoading && <div>Loading...</div>}
+      <fieldset className="productSearch">
+        <legend className="sr-only">Product search</legend>
+        <div>
+          <label className="sr-only" htmlFor="search">
+            Search products:
+          </label>
+          <input
+            id="search"
+            type="text"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Search products..."
+          />
+          {productStore.isLoading && <Loader />}
+        </div>
         <div>
           <button onClick={handleClearSearch}>Clear search</button>
         </div>
       </fieldset>
-
-      {productStore.error ? (
-        <div>Error: {productStore.error.message}</div>
-      ) : (
-        <ul>
-          {productStore.products.map((product) => (
-            <li key={product.id}>{product.title}</li>
-          ))}
-        </ul>
-      )}
     </>
   );
 });
 
-export default ProductList;
+export default ProductSearch;

@@ -1,0 +1,14 @@
+.productItem {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    color: #444;
+    margin: 0;
+}
+
+.productItem a {
+    color: #444;
+    text-decoration: underline;
+}
